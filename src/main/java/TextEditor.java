@@ -10,44 +10,58 @@ class TextEditor extends Frame implements ActionListener {
     String str = "", s3 = "", s2 = "", s4 = "", s32 = "", s6 = "", s7 = "", s8 = "", s9 = "";
     String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
             "October", "November", "December" };
-    CheckboxMenuItem chkb = new CheckboxMenuItem("Word Wrap");
+    // Creates a checkBox titled "Word Wrap"
+    CheckboxMenuItem checkboxItem = new CheckboxMenuItem("Word Wrap");
 
     public TextEditor() {
+        // Creates a menuBar at the top of the screen
         MenuBar mb = new MenuBar();
         setLayout(new BorderLayout());
         add("Center", ta);
         setMenuBar(mb);
+        // Create menu bar options
         Menu m1 = new Menu("File");
         Menu m2 = new Menu("Edit");
         Menu m3 = new Menu("Tools");
         Menu m4 = new Menu("Help");
+        // Add the menu bar options to the menu bar
         mb.add(m1);
         mb.add(m2);
         mb.add(m3);
         mb.add(m4);
+
+        // Create submenu under File
         MenuItem mi1[] = {
                 new MenuItem("New"), new MenuItem("Open"), new MenuItem("Save"), new MenuItem("Save As"),
                 new MenuItem("Page Setup"), new MenuItem("Print"), new MenuItem("Exit")
         };
+        // Create submenu under Edit
         MenuItem mi2[] = { new MenuItem("Delete"), new MenuItem("Cut"),
                 new MenuItem("Copy"), new MenuItem("Paste"), new MenuItem("Find"),
                 new MenuItem("Find Next"), new MenuItem("Replace"),
                 new MenuItem("Go To"), new MenuItem("Select All"),
                 new MenuItem("Time Stamp") };
+        // Create submenu under Tools
         MenuItem mi3[] = { new MenuItem("Choose Font"), new MenuItem("Compile"),
                 new MenuItem("Run") };
+        // Create submenu under Health
         MenuItem mi4[] = { new MenuItem("Help Topics"),
                 new MenuItem("About TextEditor") };
+
         for (int i = 0; i < mi1.length; i++) {
             m1.add(mi1[i]);
             mi1[i].addActionListener(this);
         }
+
         for (int i = 0; i < mi2.length; i++) {
             m2.add(mi2[i]);
             mi2[i].addActionListener(this);
         }
-        m3.add(chkb);
-        chkb.addActionListener(this);
+
+        // Adds checkboxItem to Tools submenu
+        m3.add(checkboxItem);
+        checkboxItem.addActionListener(this);
+
         for (int i = 0; i < mi3.length; i++) {
             m3.add(mi3[i]);
             mi3[i].addActionListener(this);
@@ -56,11 +70,12 @@ class TextEditor extends Frame implements ActionListener {
             m4.add(mi4[i]);
             mi4[i].addActionListener(this);
         }
+
         MyWindowsAdapter mw = new MyWindowsAdapter(this);
         addWindowListener(mw);
-        setSize(500, 500);
-        setTitle("untitled notepad");
-        setVisible(true);
+        setSize(500, 500); // Sets size of window
+        setTitle("untitled notepad"); // Sets window title
+        setVisible(true); // Makes window visible
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -112,6 +127,7 @@ class TextEditor extends Frame implements ActionListener {
         } catch (IOException e) {
         }
         if (arg.equals("Exit")) {
+
             System.exit(0);
         }
         if (arg.equals("Cut")) {
