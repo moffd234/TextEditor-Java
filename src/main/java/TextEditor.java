@@ -201,12 +201,12 @@ class TextEditor extends Frame implements ActionListener {
         s6 = ta.getText(); // Gets the text from the textArea
         len1 = s6.length(); // Gets the length of the text that's in the textArea
         byte[] buf = s6.getBytes(); // Convert the text to bytes
-        if(!Objects.equals(filePath, "") || !Objects.equals(filePath, "")) {
+        if(!Objects.equals(filePath, "")) {
             // ASSERT: A file path has already been established because the user either already used
             //         Open or Save As
             System.out.println(filePath);
             System.out.println(filePath);
-            if(filePath != "") {
+            if(!filePath.isEmpty()) {
                 writeBufferToFile(buf, filePath); // Writes the buffer to the file at the filePath or s9
             }
             else {
@@ -291,6 +291,7 @@ class TextEditor extends Frame implements ActionListener {
 
     public static void main(String[] args) {
         TextEditor to = new TextEditor();
+        System.out.println(to.filePath);
     }
 
 }
