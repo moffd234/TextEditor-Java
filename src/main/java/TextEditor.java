@@ -12,22 +12,27 @@ class TextEditor extends Frame implements ActionListener {
     TextArea ta = new TextArea();
     int i, len1, len, pos1;
     String str = "", s3 = "", s2 = "", s4 = "", s32 = "", s6 = "", s7 = "", s8 = "", s9 = "";
+
+    // A list of months (Not sure what this is used for yet
     String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
             "October", "November", "December" };
     // Creates a checkBox titled "Word Wrap"
     CheckboxMenuItem checkboxItem = new CheckboxMenuItem("Word Wrap");
 
     public TextEditor() {
+
         // Creates a menuBar at the top of the screen
         MenuBar mb = new MenuBar();
         setLayout(new BorderLayout());
         add("Center", ta);
         setMenuBar(mb);
+
         // Create menu bar options
         Menu m1 = new Menu("File");
         Menu m2 = new Menu("Edit");
         Menu m3 = new Menu("Tools");
         Menu m4 = new Menu("Help");
+
         // Add the menu bar options to the menu bar
         mb.add(m1);
         mb.add(m2);
@@ -52,11 +57,15 @@ class TextEditor extends Frame implements ActionListener {
         MenuItem mi4[] = { new MenuItem("Help Topics"),
                 new MenuItem("About TextEditor") };
 
+        // Iterate through the File submenu and add actionListeners for each item
+        // in the submenu
         for (int i = 0; i < mi1.length; i++) {
             m1.add(mi1[i]);
             mi1[i].addActionListener(this);
         }
 
+        // Iterate through the Edit submenu and add actionListeners for each item
+        // in the submenu
         for (int i = 0; i < mi2.length; i++) {
             m2.add(mi2[i]);
             mi2[i].addActionListener(this);
@@ -66,15 +75,21 @@ class TextEditor extends Frame implements ActionListener {
         m3.add(checkboxItem);
         checkboxItem.addActionListener(this);
 
+        // Iterate through the Tools submenu and add actionListeners for each item
+        // in the submenu
         for (int i = 0; i < mi3.length; i++) {
             m3.add(mi3[i]);
             mi3[i].addActionListener(this);
         }
+
+        // Iterate through the Help submenu and add actionListeners for each item
+        // in the submenu
         for (int i = 0; i < mi4.length; i++) {
             m4.add(mi4[i]);
             mi4[i].addActionListener(this);
         }
 
+        // Creates a window adapted? (Expand(
         MyWindowsAdapter mw = new MyWindowsAdapter(this);
         addWindowListener(mw);
         setSize(500, 500); // Sets size of window
@@ -90,7 +105,7 @@ class TextEditor extends Frame implements ActionListener {
             t11.setSize(500, 500);
             t11.setVisible(true);
         }
-        try { // Try to open a new file then display it 
+        try { // Try to open a new file then display it
             // Open a new file
             if (arg.equals("Open")) {
                 // Creates a file dialog window so user can select a file to open
@@ -115,7 +130,9 @@ class TextEditor extends Frame implements ActionListener {
             // Log the error's stack trace
             logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
         }
+        // TODO - Continue writing comments from here down
         try {
+            // Save a file and prompt user what to save the file as
             if (arg.equals("Save As")) {
                 FileDialog dialog1 = new FileDialog(this, "Save As", FileDialog.SAVE);
                 dialog1.setVisible(true);
