@@ -129,7 +129,6 @@ class TextEditor extends Frame implements ActionListener {
 
         try {
             if (arg.equals("Save")) {
-                // TODO - Implement saving the current file
                 saveCurrentFile();
             }
         } catch (IOException e){
@@ -148,7 +147,6 @@ class TextEditor extends Frame implements ActionListener {
             logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
         }
         if (arg.equals("Exit")) {
-            // TODO - Save the file before you exit
            try {
                 saveCurrentFile();
             } catch (IOException e) {
