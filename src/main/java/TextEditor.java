@@ -11,7 +11,7 @@ class TextEditor extends Frame implements ActionListener {
 
     TextArea ta = new TextArea();
     int i, len1, len, pos1;
-    String str = "", s3 = "", s2 = "", s4 = "", s32 = "", s6 = "", s7 = "", s8 = "", s9 = "";
+    String str = "", s3 = "", s2 = "", s4 = "", filePath = "", s6 = "", s7 = "", s8 = "", s9 = "";
 
     // A list of months (Not sure what this is used for yet)
     String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
@@ -100,15 +100,15 @@ class TextEditor extends Frame implements ActionListener {
     public void actionPerformed(ActionEvent ae) {
         String arg = (String) ae.getActionCommand();
         if (arg.equals("New")) {
-            dispose();
+            dispose(); // Deletes all window items and returns the memory to the OS
             TextEditor t11 = new TextEditor();
             t11.setSize(500, 500);
             t11.setVisible(true);
         }
 
         try { // Try to open a new file then display it
-            // Open a new file
             if (arg.equals("Open")) {
+                // THE FOLLOWING THROWS AN IOEXCEPTION IF THE USER HITS CANCEL IN THE DIALOG
                 openAndDisplayFile();
             }
         } catch (IOException e) {
@@ -116,30 +116,51 @@ class TextEditor extends Frame implements ActionListener {
             logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
         }
 
-        // TODO - Continue writing comments from here down
+        try {
+            if (arg.equals("Save")) {
+                // TODO - Implement saving the current file
+                s6 = ta.getText(); // Gets the text from the textArea
+                len1 = s6.length(); // Gets the length of the text that's in the textArea
+                byte[] buf = s6.getBytes(); // Convert the text to bytes
+                if(!Objects.equals(filePath, "") || !Objects.equals(s9, "")) {
+                    // ASSERT: A file path has already been established because the user either already used
+                    //         Open or Save As
+                    System.out.println(filePath);
+                    System.out.println(s9);
+                    if(filePath != "") {
+                        writeBufferToFile(buf, filePath); // Writes the buffer to the file at the filePath or s9
+                    }
+                    else {
+                        writeBufferToFile(buf, s9);
+                    }
+                }
+                else{
+                    saveFileAs();
+                }
+            }
+        } catch (IOException e){
+            // Log the error's stack trace
+            logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
+        }
+
         try {
             // Save a file and prompt user what to save the file as
             if (arg.equals("Save As")) {
-                FileDialog dialog1 = new FileDialog(this, "Save As", FileDialog.SAVE);
-                dialog1.setVisible(true);
-                s7 = dialog1.getDirectory();
-                s8 = dialog1.getFile();
-                s9 = s7 + s8 + ".txt";
-                s6 = ta.getText();
-                len1 = s6.length();
-                byte buf[] = s6.getBytes();
-                File f1 = new File(s9);
-                FileOutputStream fobj1 = new FileOutputStream(f1);
-                for (int k = 0; k < len1; k++) {
-                    fobj1.write(buf[k]);
-                }
-                fobj1.close();
+                saveFileAs();
             }
-            this.setTitle(s8 + " TextEditor File");
+            this.setTitle(s8 + " TextEditor File"); // Titles the window the same as the file name
         } catch (IOException e) {
+            // Log the error's stack trace
+            logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
         }
         if (arg.equals("Exit")) {
-
+            // TODO - Save the file before you exit
+           // try {
+                System.out.println("Hi");
+//            } catch (IOException e) {
+//                // Log the error's stack trace
+//                logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
+//            }
             System.exit(0);
         }
         if (arg.equals("Cut")) {
@@ -184,6 +205,44 @@ class TextEditor extends Frame implements ActionListener {
         }
     }
 
+    private void writeBufferToFile(byte[] buf, String fp) throws IOException {
+        File f1 = new File(fp); // Creates a new file object from the filePath
+        // created in getSaveAsDirectory
+        FileOutputStream fobj1 = new FileOutputStream(f1); // Creates FileOutputStream object from the file
+        // Writes the bytes to the file
+        for (int k = 0; k < len1; k++) {
+            fobj1.write(buf[k]);
+        }
+        fobj1.close(); // Close the FileOutputStream
+        System.out.println("SAVING");
+    }
+
+    private void saveFileAs() throws IOException {
+        getSaveAsDirectory(); // Prompts the user to select where to save the file
+                              // And what to save the file as. Then creates a filePath from the info
+        s6 = ta.getText(); // Gets the text from the textArea
+        len1 = s6.length(); // Gets the length of the text that's in the textArea
+        byte[] buf = s6.getBytes(); // Convert the text to bytes
+        File f1 = new File(s9); // Creates a new file object from the filePath
+                                // created in getSaveAsDirectory
+        FileOutputStream fobj1 = new FileOutputStream(f1); // Creates FileOutputStream object from the file
+        // Writes the bytes to the file
+        for (int k = 0; k < len1; k++) {
+            fobj1.write(buf[k]);
+        }
+        fobj1.close(); // Close the FileOutputStream
+    }
+
+    private void getSaveAsDirectory() {
+        // Creates a file dialog for saving the file
+        FileDialog dialog1 = new FileDialog(this, "Save As", FileDialog.SAVE);
+        dialog1.setVisible(true); // Displays the dialog
+        s7 = dialog1.getDirectory(); // Gets the directory of where the file will be saved
+        s8 = dialog1.getFile(); // Get the fileName of the file to be saved
+        s9 = s7 + s8 + ".txt"; // Create the filePath of the file to be saved and make it a text file
+        System.out.println(s9);
+    }
+
     private void openAndDisplayFile() throws IOException {
         // Creates a file dialog window so user can select a file to open
         FileDialog fd1 = new FileDialog(this, "Select File", FileDialog.LOAD);
@@ -192,7 +251,7 @@ class TextEditor extends Frame implements ActionListener {
         String s4 = ""; // Creates an empty string
         createFilePath(fd1); // Gets the filePath of the selected file
 
-        File f = new File(s32); // Creates new file object with the filePath in s32
+        File f = new File(filePath); // Creates new file object with the filePath in s32
         FileInputStream fii = new FileInputStream(f); // Creates a fileInputStream from the file
         len = (int) f.length(); // Gets the length of the file
 
@@ -206,7 +265,7 @@ class TextEditor extends Frame implements ActionListener {
     private void createFilePath(FileDialog fd1) {
         s2 = fd1.getFile(); // Gets the fileName of the selected file
         s3 = fd1.getDirectory(); // Gets the directory of the selected file
-        s32 = s3 + s2; // Combines the fileName and directory to create a file path
+        filePath = s3 + s2; // Combines the fileName and directory to create a file path
     }
 
     private String getStringToDisplay(FileInputStream fii, String s4) throws IOException {
