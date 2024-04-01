@@ -5,6 +5,17 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/*
+TODO - find/replace text implementation
+TODO - add a new window, scrollable, with some editor help documentation in it.
+TODO - implement Word Wrap (yeah, look it up)
+TODO - add a font panel, so you can change the font you edit in.
+TODO - make sure not only new files are in the new font, but existing windows too.
+TODO - add a way to print the current file.
+TODO - add a way to set the page in portrait or landscape mode
+TODO - Make your About Dialog snazzy!
+ */
+
 //TextEditor class starts here
 class TextEditor extends Frame implements ActionListener {
     Logger logger = Logger.getLogger(TextEditor.class.getName());
