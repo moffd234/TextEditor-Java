@@ -22,7 +22,7 @@ class TextEditor extends Frame implements ActionListener {
 
     TextArea ta = new TextArea();
     int i, len1, len, pos1;
-    String str = "", s3 = "", s2 = "", s4 = "", filePath = "", s6 = "", s7 = "", s8 = "", s9 = "";
+    String str = "", s3 = "", s2 = "", s4 = "", filePath = "", s6 = "", s7 = "", s8 = "";
 
     // A list of months (Not sure what this is used for yet)
     String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
@@ -201,16 +201,16 @@ class TextEditor extends Frame implements ActionListener {
         s6 = ta.getText(); // Gets the text from the textArea
         len1 = s6.length(); // Gets the length of the text that's in the textArea
         byte[] buf = s6.getBytes(); // Convert the text to bytes
-        if(!Objects.equals(filePath, "") || !Objects.equals(s9, "")) {
+        if(!Objects.equals(filePath, "") || !Objects.equals(filePath, "")) {
             // ASSERT: A file path has already been established because the user either already used
             //         Open or Save As
             System.out.println(filePath);
-            System.out.println(s9);
+            System.out.println(filePath);
             if(filePath != "") {
                 writeBufferToFile(buf, filePath); // Writes the buffer to the file at the filePath or s9
             }
             else {
-                writeBufferToFile(buf, s9);
+                writeBufferToFile(buf, filePath);
             }
         }
         else{
@@ -236,7 +236,7 @@ class TextEditor extends Frame implements ActionListener {
         s6 = ta.getText(); // Gets the text from the textArea
         len1 = s6.length(); // Gets the length of the text that's in the textArea
         byte[] buf = s6.getBytes(); // Convert the text to bytes
-        File f1 = new File(s9); // Creates a new file object from the filePath
+        File f1 = new File(filePath); // Creates a new file object from the filePath
                                 // created in getSaveAsDirectory
         FileOutputStream fobj1 = new FileOutputStream(f1); // Creates FileOutputStream object from the file
         // Writes the bytes to the file
@@ -252,8 +252,8 @@ class TextEditor extends Frame implements ActionListener {
         dialog1.setVisible(true); // Displays the dialog
         s7 = dialog1.getDirectory(); // Gets the directory of where the file will be saved
         s8 = dialog1.getFile(); // Get the fileName of the file to be saved
-        s9 = s7 + s8 + ".txt"; // Create the filePath of the file to be saved and make it a text file
-        System.out.println(s9);
+        filePath = s7 + s8 + ".txt"; // Create the filePath of the file to be saved and make it a text file
+        System.out.println(filePath);
     }
 
     private void openAndDisplayFile() throws IOException {
