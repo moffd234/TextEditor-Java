@@ -119,24 +119,7 @@ class TextEditor extends Frame implements ActionListener {
         try {
             if (arg.equals("Save")) {
                 // TODO - Implement saving the current file
-                s6 = ta.getText(); // Gets the text from the textArea
-                len1 = s6.length(); // Gets the length of the text that's in the textArea
-                byte[] buf = s6.getBytes(); // Convert the text to bytes
-                if(!Objects.equals(filePath, "") || !Objects.equals(s9, "")) {
-                    // ASSERT: A file path has already been established because the user either already used
-                    //         Open or Save As
-                    System.out.println(filePath);
-                    System.out.println(s9);
-                    if(filePath != "") {
-                        writeBufferToFile(buf, filePath); // Writes the buffer to the file at the filePath or s9
-                    }
-                    else {
-                        writeBufferToFile(buf, s9);
-                    }
-                }
-                else{
-                    saveFileAs();
-                }
+                saveCurrentFile();
             }
         } catch (IOException e){
             // Log the error's stack trace
@@ -155,12 +138,12 @@ class TextEditor extends Frame implements ActionListener {
         }
         if (arg.equals("Exit")) {
             // TODO - Save the file before you exit
-           // try {
-                System.out.println("Hi");
-//            } catch (IOException e) {
-//                // Log the error's stack trace
-//                logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
-//            }
+           try {
+                saveCurrentFile();
+            } catch (IOException e) {
+                // Log the error's stack trace
+                logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
+            }
             System.exit(0);
         }
         if (arg.equals("Cut")) {
@@ -202,6 +185,27 @@ class TextEditor extends Frame implements ActionListener {
             AboutDialog d1 = new AboutDialog(this, "About TextEditor");
             d1.setVisible(true);
             setSize(500, 500);
+        }
+    }
+
+    private void saveCurrentFile() throws IOException {
+        s6 = ta.getText(); // Gets the text from the textArea
+        len1 = s6.length(); // Gets the length of the text that's in the textArea
+        byte[] buf = s6.getBytes(); // Convert the text to bytes
+        if(!Objects.equals(filePath, "") || !Objects.equals(s9, "")) {
+            // ASSERT: A file path has already been established because the user either already used
+            //         Open or Save As
+            System.out.println(filePath);
+            System.out.println(s9);
+            if(filePath != "") {
+                writeBufferToFile(buf, filePath); // Writes the buffer to the file at the filePath or s9
+            }
+            else {
+                writeBufferToFile(buf, s9);
+            }
+        }
+        else{
+            saveFileAs();
         }
     }
 
