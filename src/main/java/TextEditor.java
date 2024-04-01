@@ -2,9 +2,13 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
 import java.util.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 //TextEditor class starts here
 class TextEditor extends Frame implements ActionListener {
+    Logger logger = Logger.getLogger(TextEditor.class.getName());
+
     TextArea ta = new TextArea();
     int i, len1, len, pos1;
     String str = "", s3 = "", s2 = "", s4 = "", s32 = "", s6 = "", s7 = "", s8 = "", s9 = "";
@@ -86,25 +90,30 @@ class TextEditor extends Frame implements ActionListener {
             t11.setSize(500, 500);
             t11.setVisible(true);
         }
-        try {
+        try { // Try to open a new file then display it 
+            // Open a new file
             if (arg.equals("Open")) {
+                // Creates a file dialog window so user can select a file to open
                 FileDialog fd1 = new FileDialog(this, "Select File", FileDialog.LOAD);
-                fd1.setVisible(true);
-                String s4 = "";
-                s2 = fd1.getFile();
-                s3 = fd1.getDirectory();
-                s32 = s3 + s2;
-                File f = new File(s32);
-                FileInputStream fii = new FileInputStream(f);
-                len = (int) f.length();
+                fd1.setVisible(true); // Displays the file dialog
+                String s4 = ""; // Creates an empty string
+                s2 = fd1.getFile(); // Gets the fileName of the selected file
+                s3 = fd1.getDirectory(); // Gets the directory of the selected file
+                s32 = s3 + s2; // Combines the fileName and directory to create a file path
+                File f = new File(s32); // Creates new file object with the filePath in s32
+                FileInputStream fii = new FileInputStream(f); // Creates a fileInputStream from the file
+                len = (int) f.length(); // Gets the length of the file
+                // Iterate through the contents of the file character ny character
                 for (int j = 0; j < len; j++) {
-                    char s5 = (char) fii.read();
-                    s4 = s4 + s5;
+                    char s5 = (char) fii.read(); // Gets current character
+                    s4 += s5; // Adds the current character to the s4 string (Starts as an empty string)
                 }
-                ta.setText(s4);
-                fii.close();
+                ta.setText(s4); // Sets textArea to the contents of the file
+                fii.close(); // Closes the FileInputStream object
             }
         } catch (IOException e) {
+            // Log the error's stack trace
+            logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
         }
         try {
             if (arg.equals("Save As")) {
@@ -185,7 +194,7 @@ class MyWindowsAdapter extends WindowAdapter {
     }
 
     public void windowClosing(WindowEvent we) {
-        tt.dispose();
+        tt.dispose(); // Deletes all window items and returns the memory to the OS
     }
 }
 
@@ -198,6 +207,6 @@ class AboutDialog extends Dialog implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        dispose();
+        dispose(); // Deletes all window items and returns the memory to the OS
     }
 }
