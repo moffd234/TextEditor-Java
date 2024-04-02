@@ -13,7 +13,6 @@ TODO - add a new window, scrollable, with some editor help documentation in it.
 TODO - implement Word Wrap (yeah, look it up)
 TODO - add a font panel, so you can change the font you edit in.
 TODO - make sure not only new files are in the new font, but existing windows too.
-TODO - add a way to print the current file.
 TODO - add a way to set the page in portrait or landscape mode
 TODO - Make your About Dialog snazzy!
  */
@@ -194,10 +193,10 @@ class TextEditor extends Frame implements ActionListener {
         }
         if (arg.equals("Word Wrap")){
             // Doesn't actually wrap the words for some reason... will come back to this
-            ;
             boolean isChecked = checkboxItem.getState();
             System.out.println("Word wrap is " + isChecked);
             ta.setLineWrap(isChecked);
+            ta.setWrapStyleWord(true);
             ta.repaint();
         }
         if (arg.equals("Print")){
@@ -211,6 +210,11 @@ class TextEditor extends Frame implements ActionListener {
         if (arg.equals("About TextEditor")) {
             AboutDialog d1 = new AboutDialog(this, "About TextEditor");
             d1.setVisible(true);
+            setSize(500, 500);
+        }
+        if (arg.equals("Help Topics")){
+            HelpDocs hd = new HelpDocs(this, "Help Documentation");
+            hd.setVisible(true);
             setSize(500, 500);
         }
     }
@@ -325,7 +329,26 @@ class MyWindowsAdapter extends WindowAdapter {
         tt.dispose(); // Deletes all window items and returns the memory to the OS
     }
 }
+class HelpDocs extends Dialog implements ActionListener{
+    HelpDocs(Frame parent, String title) {
+        super(parent, title, false);
+        this.setResizable(true);
+        setLayout(new BorderLayout());
+        setSize(500, 300);
 
+        // Create text area
+        JTextArea textArea = new JTextArea();
+        textArea.setText("HELP DOCUMENTATION");
+
+
+        JScrollPane scrPane = new JScrollPane(textArea);  // Create a scroll pane containing the textArea
+        add(scrPane, BorderLayout.CENTER); // Adds the JScrollPane and centers it
+    }
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        dispose();
+    }
+}
 class AboutDialog extends Dialog implements ActionListener {
     AboutDialog(Frame parent, String title) {
         super(parent, title, false);
