@@ -1,5 +1,7 @@
+import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.print.PrinterException;
 import java.io.*;
 import java.util.*;
 import java.util.logging.Level;
@@ -20,7 +22,7 @@ TODO - Make your About Dialog snazzy!
 class TextEditor extends Frame implements ActionListener {
     Logger logger = Logger.getLogger(TextEditor.class.getName());
 
-    TextArea ta = new TextArea();
+    JTextArea ta = new JTextArea();
     int i, len1, len, pos1;
     String str = "", s3 = "", s2 = "", s4 = "", filePath = "", s6 = "", s7 = "", s8 = "";
 
@@ -63,7 +65,7 @@ class TextEditor extends Frame implements ActionListener {
                 new MenuItem("Time Stamp") };
         // Create submenu under Tools
         MenuItem mi3[] = { new MenuItem("Choose Font"), new MenuItem("Compile"),
-                new MenuItem("Run") };
+                new MenuItem("Run"), new MenuItem("Print") };
         // Create submenu under Health
         MenuItem mi4[] = { new MenuItem("Help Topics"),
                 new MenuItem("About TextEditor") };
@@ -189,6 +191,22 @@ class TextEditor extends Frame implements ActionListener {
             String hms = "Time" + " - " + h + ":" + m + ":" + s + " Date" + " - " + date + " " + mon + " " + year + " ";
             int loc = ta.getCaretPosition();
             ta.insert(hms, loc);
+        }
+        if (arg.equals("Word Wrap")){
+            // Doesn't actually wrap the words for some reason... will come back to this
+            ;
+            boolean isChecked = checkboxItem.getState();
+            System.out.println("Word wrap is " + isChecked);
+            ta.setLineWrap(isChecked);
+            ta.repaint();
+        }
+        if (arg.equals("Print")){
+            try {
+                ta.print(); // Shows a print dialog (Not tested right now due to lack of printer availability)
+            } catch (PrinterException e) {
+                // Log the error's stack trace
+                logger.log(Level.SEVERE, Arrays.toString(e.getStackTrace()));
+            }
         }
         if (arg.equals("About TextEditor")) {
             AboutDialog d1 = new AboutDialog(this, "About TextEditor");
