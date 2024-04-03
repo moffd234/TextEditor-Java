@@ -26,7 +26,7 @@ class TextEditor extends Frame implements ActionListener {
     String str = "", s3 = "", s2 = "", s4 = "", filePath = "", s6 = "", s7 = "", s8 = "";
 
     // A list of months (Not sure what this is used for yet)
-    String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
+    String[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
             "October", "November", "December" };
     // Creates a checkBox titled "Word Wrap"
     CheckboxMenuItem checkboxItem = new CheckboxMenuItem("Word Wrap");
@@ -52,35 +52,35 @@ class TextEditor extends Frame implements ActionListener {
         mb.add(m4);
 
         // Create submenu under File
-        MenuItem mi1[] = {
+        MenuItem[] mi1 = {
                 new MenuItem("New"), new MenuItem("Open"), new MenuItem("Save"), new MenuItem("Save As"),
                 new MenuItem("Page Setup"), new MenuItem("Print"), new MenuItem("Exit")
         };
         // Create submenu under Edit
-        MenuItem mi2[] = { new MenuItem("Delete"), new MenuItem("Cut"),
+        MenuItem[] mi2 = { new MenuItem("Delete"), new MenuItem("Cut"),
                 new MenuItem("Copy"), new MenuItem("Paste"), new MenuItem("Find"),
                 new MenuItem("Find Next"), new MenuItem("Replace"),
                 new MenuItem("Go To"), new MenuItem("Select All"),
                 new MenuItem("Time Stamp") };
         // Create submenu under Tools
-        MenuItem mi3[] = { new MenuItem("Choose Font"), new MenuItem("Compile"),
+        MenuItem[] mi3 = { new MenuItem("Choose Font"), new MenuItem("Compile"),
                 new MenuItem("Run"), new MenuItem("Print") };
         // Create submenu under Health
-        MenuItem mi4[] = { new MenuItem("Help Topics"),
+        MenuItem[] mi4 = { new MenuItem("Help Topics"),
                 new MenuItem("About TextEditor") };
 
         // Iterate through the File submenu and add actionListeners for each item
         // in the submenu
-        for (int i = 0; i < mi1.length; i++) {
-            m1.add(mi1[i]);
-            mi1[i].addActionListener(this);
+        for (MenuItem menuItem : mi1) {
+            m1.add(menuItem);
+            menuItem.addActionListener(this);
         }
 
         // Iterate through the Edit submenu and add actionListeners for each item
         // in the submenu
-        for (int i = 0; i < mi2.length; i++) {
-            m2.add(mi2[i]);
-            mi2[i].addActionListener(this);
+        for (MenuItem menuItem : mi2) {
+            m2.add(menuItem);
+            menuItem.addActionListener(this);
         }
 
         // Adds checkboxItem to Tools submenu
@@ -89,19 +89,19 @@ class TextEditor extends Frame implements ActionListener {
 
         // Iterate through the Tools submenu and add actionListeners for each item
         // in the submenu
-        for (int i = 0; i < mi3.length; i++) {
-            m3.add(mi3[i]);
-            mi3[i].addActionListener(this);
+        for (MenuItem menuItem : mi3) {
+            m3.add(menuItem);
+            menuItem.addActionListener(this);
         }
 
         // Iterate through the Help submenu and add actionListeners for each item
         // in the submenu
-        for (int i = 0; i < mi4.length; i++) {
-            m4.add(mi4[i]);
-            mi4[i].addActionListener(this);
+        for (MenuItem menuItem : mi4) {
+            m4.add(menuItem);
+            menuItem.addActionListener(this);
         }
 
-        // Creates a window adapted? (Expand(
+        // Creates a window adapted?
         MyWindowsAdapter mw = new MyWindowsAdapter(this);
         addWindowListener(mw);
         setSize(500, 500); // Sets size of window
@@ -111,6 +111,7 @@ class TextEditor extends Frame implements ActionListener {
 
     public void actionPerformed(ActionEvent ae) {
         String arg = (String) ae.getActionCommand();
+        System.out.println(arg);
         if (arg.equals("New")) {
             dispose(); // Deletes all window items and returns the memory to the OS
             TextEditor t11 = new TextEditor();
@@ -225,9 +226,7 @@ class TextEditor extends Frame implements ActionListener {
         byte[] buf = s6.getBytes(); // Convert the text to bytes
         if(!Objects.equals(filePath, "")) {
             // ASSERT: A file path has already been established because the user either already used
-            //         Open or Save As
-            System.out.println(filePath);
-            System.out.println(filePath);
+            //         Open or Save
             if(!filePath.isEmpty()) {
                 writeBufferToFile(buf, filePath); // Writes the buffer to the file at the filePath or s9
             }
@@ -249,7 +248,6 @@ class TextEditor extends Frame implements ActionListener {
             fobj1.write(buf[k]);
         }
         fobj1.close(); // Close the FileOutputStream
-        System.out.println("SAVING");
     }
 
     private void saveFileAs() throws IOException {
@@ -261,6 +259,7 @@ class TextEditor extends Frame implements ActionListener {
         File f1 = new File(filePath); // Creates a new file object from the filePath
                                 // created in getSaveAsDirectory
         FileOutputStream fobj1 = new FileOutputStream(f1); // Creates FileOutputStream object from the file
+
         // Writes the bytes to the file
         for (int k = 0; k < len1; k++) {
             fobj1.write(buf[k]);
@@ -275,7 +274,6 @@ class TextEditor extends Frame implements ActionListener {
         s7 = dialog1.getDirectory(); // Gets the directory of where the file will be saved
         s8 = dialog1.getFile(); // Get the fileName of the file to be saved
         filePath = s7 + s8 + ".txt"; // Create the filePath of the file to be saved and make it a text file
-        System.out.println(filePath);
     }
 
     private void openAndDisplayFile() throws IOException {
@@ -313,9 +311,8 @@ class TextEditor extends Frame implements ActionListener {
 
     public static void main(String[] args) {
         TextEditor to = new TextEditor();
-        System.out.println(to.filePath);
+        System.out.println(to);
     }
-
 }
 
 class MyWindowsAdapter extends WindowAdapter {
@@ -364,7 +361,7 @@ class HelpDocs extends Dialog implements ActionListener{
                 "   - Compile: Compile the code (if applicable).\n" +
                 "   - Run: Execute the code (if applicable).\n\n" +
                 "4. Help Menu:\n" +
-                "   - Help Topics: View help documentation.\n" +
+                "   - Help Topics: Brings you here.\n" +
                 "   - About TextEditor: View information about the text editor.\n");
 
 
