@@ -18,7 +18,7 @@ TODO - Make your About Dialog snazzy!
  */
 
 //TextEditor class starts here
-class TextEditor extends Frame implements ActionListener {
+class TextEditor extends Frame implements ActionListener, ItemListener {
     Logger logger = Logger.getLogger(TextEditor.class.getName());
 
     JTextArea ta = new JTextArea();
@@ -85,7 +85,7 @@ class TextEditor extends Frame implements ActionListener {
 
         // Adds checkboxItem to Tools submenu
         m3.add(checkboxItem);
-        checkboxItem.addActionListener(this);
+        checkboxItem.addItemListener(this);
 
         // Iterate through the Tools submenu and add actionListeners for each item
         // in the submenu
@@ -107,6 +107,7 @@ class TextEditor extends Frame implements ActionListener {
         setSize(500, 500); // Sets size of window
         setTitle("untitled notepad"); // Sets window title
         setVisible(true); // Makes window visible
+
     }
 
     public void actionPerformed(ActionEvent ae) {
@@ -217,6 +218,18 @@ class TextEditor extends Frame implements ActionListener {
             HelpDocs hd = new HelpDocs(this, "Help Documentation");
             hd.setVisible(true);
             setSize(500, 500);
+        }
+    }
+
+    @Override
+    public void itemStateChanged(ItemEvent e) {
+        if (e.getSource() == checkboxItem) {
+            // Checkbox state changed, do something
+            boolean isChecked = checkboxItem.getState();
+            System.out.println("Word wrap is " + isChecked);
+            ta.setLineWrap(isChecked);
+            ta.setWrapStyleWord(true);
+            ta.repaint();
         }
     }
 
