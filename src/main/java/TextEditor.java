@@ -10,7 +10,6 @@ import java.util.logging.Logger;
 /*
 TODO - find/replace text implementation
 TODO - add a new window, scrollable, with some editor help documentation in it.
-TODO - implement Word Wrap (yeah, look it up)
 TODO - add a font panel, so you can change the font you edit in.
 TODO - make sure not only new files are in the new font, but existing windows too.
 TODO - add a way to set the page in portrait or landscape mode
@@ -193,14 +192,6 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             int loc = ta.getCaretPosition();
             ta.insert(hms, loc);
         }
-        if (arg.equals("Word Wrap")){
-            // Doesn't actually wrap the words for some reason... will come back to this
-            boolean isChecked = checkboxItem.getState();
-            System.out.println("Word wrap is " + isChecked);
-            ta.setLineWrap(isChecked);
-            ta.setWrapStyleWord(true);
-            ta.repaint();
-        }
         if (arg.equals("Print")){
             try {
                 ta.print(); // Shows a print dialog (Not tested right now due to lack of printer availability)
@@ -248,7 +239,7 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             }
         }
         else{
-            saveFileAs();
+            saveFileAs(); // Prompt the user to choose where to save the file to
         }
     }
 
