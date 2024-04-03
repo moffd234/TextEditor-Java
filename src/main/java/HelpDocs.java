@@ -3,12 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-class HelpDocs extends Dialog implements ActionListener {
+class HelpDocs extends JDialog implements ActionListener {
     HelpDocs(Frame parent, String title) {
         super(parent, title, false);
+        this.setDefaultCloseOperation(DISPOSE_ON_CLOSE); // When window is closed dispose() gets called
         this.setResizable(true);
         setLayout(new BorderLayout());
         setSize(500, 300);
+
 
         // Create text area
         JTextArea textArea = new JTextArea();

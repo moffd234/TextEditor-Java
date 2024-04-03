@@ -110,8 +110,7 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        String arg = (String) ae.getActionCommand();
-        System.out.println(arg);
+        String arg = ae.getActionCommand();
         if (arg.equals("New")) {
             dispose(); // Deletes all window items and returns the memory to the OS
             TextEditor t11 = new TextEditor();
@@ -173,7 +172,6 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             String msg = ta.getSelectedText();
             i = ta.getText().indexOf(msg);
             ta.replaceRange(" ", i, i + msg.length());
-            msg = "";
         }
         if (arg.equals("Select All")) {
             String strText = ta.getText();
@@ -181,14 +179,7 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             ta.select(0, strLen);
         }
         if (arg.equals("Time Stamp")) {
-            GregorianCalendar gcalendar = new GregorianCalendar();
-            String h = String.valueOf(gcalendar.get(Calendar.HOUR));
-            String m = String.valueOf(gcalendar.get(Calendar.MINUTE));
-            String s = String.valueOf(gcalendar.get(Calendar.SECOND));
-            String date = String.valueOf(gcalendar.get(Calendar.DATE));
-            String mon = months[gcalendar.get(Calendar.MONTH)];
-            String year = String.valueOf(gcalendar.get(Calendar.YEAR));
-            String hms = "Time" + " - " + h + ":" + m + ":" + s + " Date" + " - " + date + " " + mon + " " + year + " ";
+            String hms = getString();
             int loc = ta.getCaretPosition();
             ta.insert(hms, loc);
         }
@@ -212,12 +203,22 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
         }
     }
 
+    private String getString() {
+        GregorianCalendar gCalendar = new GregorianCalendar();
+        String h = String.valueOf(gCalendar.get(Calendar.HOUR));
+        String m = String.valueOf(gCalendar.get(Calendar.MINUTE));
+        String s = String.valueOf(gCalendar.get(Calendar.SECOND));
+        String date = String.valueOf(gCalendar.get(Calendar.DATE));
+        String mon = months[gCalendar.get(Calendar.MONTH)];
+        String year = String.valueOf(gCalendar.get(Calendar.YEAR));
+        return "Time" + " - " + h + ":" + m + ":" + s + " Date" + " - " + date + " " + mon + " " + year + " ";
+    }
+
     @Override
     public void itemStateChanged(ItemEvent e) {
         if (e.getSource() == checkboxItem) {
             // Checkbox state changed, do something
             boolean isChecked = checkboxItem.getState();
-            System.out.println("Word wrap is " + isChecked);
             ta.setLineWrap(isChecked);
             ta.setWrapStyleWord(true);
             ta.repaint();
@@ -246,12 +247,12 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
     private void writeBufferToFile(byte[] buf, String fp) throws IOException {
         File f1 = new File(fp); // Creates a new file object from the filePath
         // created in getSaveAsDirectory
-        FileOutputStream fobj1 = new FileOutputStream(f1); // Creates FileOutputStream object from the file
+        FileOutputStream fObj1 = new FileOutputStream(f1); // Creates FileOutputStream object from the file
         // Writes the bytes to the file
         for (int k = 0; k < len1; k++) {
-            fobj1.write(buf[k]);
+            fObj1.write(buf[k]);
         }
-        fobj1.close(); // Close the FileOutputStream
+        fObj1.close(); // Close the FileOutputStream
     }
 
     private void saveFileAs() throws IOException {
@@ -262,13 +263,13 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
         byte[] buf = s6.getBytes(); // Convert the text to bytes
         File f1 = new File(filePath); // Creates a new file object from the filePath
                                 // created in getSaveAsDirectory
-        FileOutputStream fobj1 = new FileOutputStream(f1); // Creates FileOutputStream object from the file
+        FileOutputStream fObj1 = new FileOutputStream(f1); // Creates FileOutputStream object from the file
 
         // Writes the bytes to the file
         for (int k = 0; k < len1; k++) {
-            fobj1.write(buf[k]);
+            fObj1.write(buf[k]);
         }
-        fobj1.close(); // Close the FileOutputStream
+        fObj1.close(); // Close the FileOutputStream
     }
 
     private void getSaveAsDirectory() {
