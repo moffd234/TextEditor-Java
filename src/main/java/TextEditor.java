@@ -23,7 +23,7 @@ class TextEditor extends Frame implements ActionListener {
 
     JTextArea ta = new JTextArea();
     int i, len1, len, pos1;
-    String str = "", s3 = "", s2 = "", s4 = "", filePath = "", s6 = "", s7 = "", s8 = "";
+    String str = "", s3 = "", s2 = "", filePath = "", s6 = "", s7 = "", s8 = "";
 
     // A list of months (Not sure what this is used for yet)
     String[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
@@ -315,73 +315,5 @@ class TextEditor extends Frame implements ActionListener {
     }
 }
 
-class MyWindowsAdapter extends WindowAdapter {
-    TextEditor tt;
-
-    public MyWindowsAdapter(TextEditor ttt) {
-        tt = ttt;
-    }
-
-    public void windowClosing(WindowEvent we) {
-        tt.dispose(); // Deletes all window items and returns the memory to the OS
-    }
-}
-class HelpDocs extends Dialog implements ActionListener{
-    HelpDocs(Frame parent, String title) {
-        super(parent, title, false);
-        this.setResizable(true);
-        setLayout(new BorderLayout());
-        setSize(500, 300);
-
-        // Create text area
-        JTextArea textArea = new JTextArea();
-        textArea.setText("HELP DOCUMENTATION\n" +
-                "Text Editor Help Documentation\n\n" +
-                "1. File Menu:\n" +
-                "   - New: Create a new document.\n" +
-                "   - Open: Open an existing document.\n" +
-                "   - Save: Save the current document.\n" +
-                "   - Save As: Save the current document with a new name.\n" +
-                "   - Page Setup: Configure page settings for printing.\n" +
-                "   - Print: Print the document.\n" +
-                "   - Exit: Close the application.\n\n" +
-                "2. Edit Menu:\n" +
-                "   - Delete: Delete selected text.\n" +
-                "   - Cut: Cut selected text.\n" +
-                "   - Copy: Copy selected text.\n" +
-                "   - Paste: Paste copied/cut text.\n" +
-                "   - Find: Find text in the document.\n" +
-                "   - Find Next: Find the next occurrence of the searched text.\n" +
-                "   - Replace: Replace text in the document.\n" +
-                "   - Go To: Navigate to a specific line number.\n" +
-                "   - Select All: Select all text in the document.\n" +
-                "   - Time Stamp: Insert current date and time.\n\n" +
-                "3. Tools Menu:\n" +
-                "   - Choose Font: Change the font of the text.\n" +
-                "   - Compile: Compile the code (if applicable).\n" +
-                "   - Run: Execute the code (if applicable).\n\n" +
-                "4. Help Menu:\n" +
-                "   - Help Topics: Brings you here.\n" +
-                "   - About TextEditor: View information about the text editor.\n");
 
 
-        JScrollPane scrPane = new JScrollPane(textArea);  // Create a scroll pane containing the textArea
-        add(scrPane, BorderLayout.CENTER); // Adds the JScrollPane and centers it
-    }
-    @Override
-    public void actionPerformed(ActionEvent e) {
-        dispose();
-    }
-}
-class AboutDialog extends Dialog implements ActionListener {
-    AboutDialog(Frame parent, String title) {
-        super(parent, title, false);
-        this.setResizable(false);
-        setLayout(new FlowLayout(FlowLayout.LEFT));
-        setSize(500, 300);
-    }
-
-    public void actionPerformed(ActionEvent ae) {
-        dispose(); // Deletes all window items and returns the memory to the OS
-    }
-}
