@@ -60,7 +60,7 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
                 new MenuItem("Copy"), new MenuItem("Paste"), new MenuItem("Find"),
                 new MenuItem("Find Next"), new MenuItem("Replace"),
                 new MenuItem("Go To"), new MenuItem("Select All"),
-                new MenuItem("Time Stamp") };
+                new MenuItem("Time Stamp")};
         // Create submenu under Tools
         MenuItem[] mi3 = { new MenuItem("Choose Font"), new MenuItem("Compile"),
                 new MenuItem("Run"), new MenuItem("Print") };
@@ -182,6 +182,10 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             String hms = getString();
             int loc = ta.getCaretPosition();
             ta.insert(hms, loc);
+        }
+        if (arg.equals("Replace")){
+            System.out.println("FINDING AND REPLACING");
+            findAndReplace();
         }
         if (arg.equals("Print")){
             try {
@@ -312,6 +316,18 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             s4 += s5; // Adds the current character to the s4 string (Starts as an empty string)
         }
         return s4;
+    }
+    private void findAndReplace(){
+        String findText = JOptionPane.showInputDialog("Enter find text");
+        String replaceText = JOptionPane.showInputDialog("Enter replacement text");
+        ta.setText(replace(findText, replaceText));
+        ta.repaint();
+        System.out.println("Replaced");
+    }
+
+    private String replace(String textToBeReplaced, String replaceWithThis){
+        String textAreaText = ta.getText();
+        return textAreaText.replace(textToBeReplaced, replaceWithThis);
     }
 
     public static void main(String[] args) {
