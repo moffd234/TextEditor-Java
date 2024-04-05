@@ -8,10 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*
-TODO - find num occurrences implementation
 TODO - add a font panel, so you can change the font you edit in.
 TODO - make sure not only new files are in the new font, but existing windows too.
-TODO - add a way to set the page in portrait or landscape mode
 TODO - Make your About Dialog snazzy!
  */
 
@@ -48,22 +46,36 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
         mb.add(m3);
         mb.add(m4);
 
-        // Create submenu under File
+        // Create menuItems under File
         MenuItem[] mi1 = {
                 new MenuItem("New"), new MenuItem("Open"), new MenuItem("Save"),
                 new MenuItem("Save As"), new MenuItem("Page Setup"), new MenuItem("Print"),
                 new MenuItem("Exit")
         };
-        // Create submenu under Edit
+
+        // Create menuItems under Edit
         MenuItem[] mi2 = { new MenuItem("Delete"), new MenuItem("Cut"),
                 new MenuItem("Copy"), new MenuItem("Paste"), new MenuItem("Find"),
                 new MenuItem("Find Next"), new MenuItem("Replace"),
                 new MenuItem("Go To"), new MenuItem("Select All"),
                 new MenuItem("Time Stamp")};
-        // Create submenu under Tools
-        MenuItem[] mi3 = { new MenuItem("Choose Font"), new MenuItem("Compile"),
+
+        Menu fonts = new Menu("Fonts");  // Creates fonts submenu
+        String[] allFonts = getFonts(); // Get all available fonts
+        MenuItem[] fontsMenuItems = new MenuItem[allFonts.length]; // Create list of menuItems
+
+        // Iterate through each font
+        for(int i = 0; i < allFonts.length; i++){
+            fontsMenuItems[i] = new MenuItem(allFonts[i]); // Create a new menuItem for the current font
+            fontsMenuItems[i].addActionListener(this); // Add an action listener to the menuItem
+            fonts.add(fontsMenuItems[i]); // Add the menuItem to the fonts menu
+        }
+
+        // Create menuItems under Tools
+        MenuItem[] mi3 = { fonts, new MenuItem("Compile"),
                 new MenuItem("Run"), new MenuItem("Print") };
-        // Create submenu under Health
+
+        // Create menuItems under Help
         MenuItem[] mi4 = { new MenuItem("Help Topics"),
                 new MenuItem("About TextEditor") };
 
@@ -237,12 +249,7 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
         if(!Objects.equals(filePath, "")) {
             // ASSERT: A file path has already been established because the user either already used
             //         Open or Save
-            if(!filePath.isEmpty()) {
-                writeBufferToFile(buf, filePath); // Writes the buffer to the file at the filePath or s9
-            }
-            else {
-                writeBufferToFile(buf, filePath);
-            }
+            writeBufferToFile(buf, filePath); // Writes the buffer to the file at the filePath or s9
         }
         else{
             saveFileAs(); // Prompt the user to choose where to save the file to
@@ -351,6 +358,10 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             position = index + toFind.length();
         }
         return count;
+    }
+    
+    public String[] getFonts(){
+        return GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames();
     }
 
     public static void main(String[] args) {
