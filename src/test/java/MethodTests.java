@@ -15,4 +15,12 @@ public class MethodTests {
                 Or only test things that don't rely on a textEditor fields
                 Or call TE from the test class
      */
+
+//    @Test
+//    public void testGetNumOccurrences() {
+//        String input = "kfdsndfTHIS1sdjjfdjTHIS2kdsfsdjoTHIS3sdfhkhfdkTHIS4";
+//        String substring = "tHiS";
+//        int expected = 4;
+//        int actual = countOccurrencesInString(substring, input);
+//    }
 }

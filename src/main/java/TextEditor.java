@@ -334,12 +334,15 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
         String findText = JOptionPane.showInputDialog("Enter find text");
         if(findText != null) {
             int numOccurrences = countOccurrencesInString(findText, ta.getText());
-            JOptionPane.showMessageDialog(this, 
+            JOptionPane.showMessageDialog(this,
                     findText + " occurs  " + numOccurrences + " times");
         }
     }
 
     private int countOccurrencesInString(String toFind, String fullString){
+        toFind = toFind.toLowerCase();
+        fullString = fullString.toLowerCase();
+
         int count = 0;
         int position = 0;
         int index;
