@@ -7,11 +7,6 @@ import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-/*
-TODO - add a font panel, so you can change the font you edit in.
-TODO - make sure not only new files are in the new font, but existing windows too.
-TODO - Make your About Dialog snazzy!
- */
 
 //TextEditor class starts here
 class TextEditor extends Frame implements ActionListener, ItemListener {
@@ -129,8 +124,10 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             }
         }
         if (arg.equals("New")) {
+            Font font = ta.getFont(); // Get the current font so we can persist it
             dispose(); // Deletes all window items and returns the memory to the OS
             TextEditor t11 = new TextEditor();
+            t11.ta.setFont(font); // Set the font to what it was in the old window
             t11.setSize(500, 500);
             t11.setVisible(true);
         }
