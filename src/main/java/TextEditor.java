@@ -122,6 +122,12 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
 
     public void actionPerformed(ActionEvent ae) {
         String arg = ae.getActionCommand();
+
+        for(String font : getFonts()){
+            if(arg.equals(font)){
+                ta.setFont(new Font(font, Font.PLAIN, 12));
+            }
+        }
         if (arg.equals("New")) {
             dispose(); // Deletes all window items and returns the memory to the OS
             TextEditor t11 = new TextEditor();
