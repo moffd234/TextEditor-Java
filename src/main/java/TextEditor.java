@@ -8,8 +8,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /*
-TODO - find/replace text implementation
-TODO - add a new window, scrollable, with some editor help documentation in it.
+TODO - find num occurrences implementation
 TODO - add a font panel, so you can change the font you edit in.
 TODO - make sure not only new files are in the new font, but existing windows too.
 TODO - add a way to set the page in portrait or landscape mode
@@ -31,7 +30,6 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
     CheckboxMenuItem checkboxItem = new CheckboxMenuItem("Word Wrap");
 
     public TextEditor() {
-
         // Creates a menuBar at the top of the screen
         MenuBar mb = new MenuBar();
         setLayout(new BorderLayout());
@@ -52,8 +50,9 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
 
         // Create submenu under File
         MenuItem[] mi1 = {
-                new MenuItem("New"), new MenuItem("Open"), new MenuItem("Save"), new MenuItem("Save As"),
-                new MenuItem("Page Setup"), new MenuItem("Print"), new MenuItem("Exit")
+                new MenuItem("New"), new MenuItem("Open"), new MenuItem("Save"),
+                new MenuItem("Save As"), new MenuItem("Page Setup"), new MenuItem("Print"),
+                new MenuItem("Exit")
         };
         // Create submenu under Edit
         MenuItem[] mi2 = { new MenuItem("Delete"), new MenuItem("Cut"),
@@ -183,8 +182,10 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
             int loc = ta.getCaretPosition();
             ta.insert(hms, loc);
         }
+        if(arg.equals("Find")){
+            find();
+        }
         if (arg.equals("Replace")){
-            System.out.println("FINDING AND REPLACING");
             findAndReplace();
         }
         if (arg.equals("Print")){
@@ -322,12 +323,31 @@ class TextEditor extends Frame implements ActionListener, ItemListener {
         String replaceText = JOptionPane.showInputDialog("Enter replacement text");
         ta.setText(replace(findText, replaceText));
         ta.repaint();
-        System.out.println("Replaced");
     }
 
     private String replace(String textToBeReplaced, String replaceWithThis){
         String textAreaText = ta.getText();
         return textAreaText.replace(textToBeReplaced, replaceWithThis);
+    }
+
+    private void find(){
+        String findText = JOptionPane.showInputDialog("Enter find text");
+        if(findText != null) {
+            int numOccurrences = countOccurrencesInString(findText, ta.getText());
+            JOptionPane.showMessageDialog(this, 
+                    findText + " occurs  " + numOccurrences + " times");
+        }
+    }
+
+    private int countOccurrencesInString(String toFind, String fullString){
+        int count = 0;
+        int position = 0;
+        int index;
+        while((index = fullString.indexOf(toFind, position)) != -1){
+            count += 1;
+            position = index + toFind.length();
+        }
+        return count;
     }
 
     public static void main(String[] args) {
