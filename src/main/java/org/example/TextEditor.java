@@ -1,3 +1,5 @@
+package org.example;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
@@ -8,7 +10,7 @@ class TextEditor extends Frame implements ActionListener {
     TextArea ta = new TextArea();
     int i, len1, len, pos1;
     String str = "", s3 = "", s2 = "", s4 = "", s32 = "", s6 = "", s7 = "", s8 = "", s9 = "";
-    String months[] = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
+    String[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
             "October", "November", "December" };
     CheckboxMenuItem chkb = new CheckboxMenuItem("Word Wrap");
 
@@ -154,9 +156,6 @@ class TextEditor extends Frame implements ActionListener {
             d1.setVisible(true);
             setSize(500, 500);
         }
-    }
-    public static void main(String args[]) {
-        TextEditor to = new TextEditor();
     }
 
 }
