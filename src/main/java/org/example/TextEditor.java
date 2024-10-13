@@ -9,10 +9,17 @@ import java.util.*;
 class TextEditor extends Frame implements ActionListener {
     TextArea ta = new TextArea();
     int i, len1, len, pos1;
-    String str = "", s3 = "", s2 = "", s4 = "", s32 = "", s6 = "", s7 = "", s8 = "", s9 = "";
+    String str = "";
+    String s3 = "";
+    String s2 = "";
+    String s32 = "";
+    String s6 = "";
+    String s7 = "";
+    String s8 = "";
+    String s9 = "";
     String[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September",
             "October", "November", "December" };
-    CheckboxMenuItem chkb = new CheckboxMenuItem("Word Wrap");
+    CheckboxMenuItem checkBox = new CheckboxMenuItem("Word Wrap");
 
     public TextEditor() {
         MenuBar mb = new MenuBar();
@@ -48,8 +55,8 @@ class TextEditor extends Frame implements ActionListener {
             m2.add(menuItem);
             menuItem.addActionListener(this);
         }
-        m3.add(chkb);
-        chkb.addActionListener(this);
+        m3.add(checkBox);
+        checkBox.addActionListener(this);
         for (MenuItem menuItem : mi3) {
             m3.add(menuItem);
             menuItem.addActionListener(this);
@@ -66,7 +73,7 @@ class TextEditor extends Frame implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent ae) {
-        String arg = (String) ae.getActionCommand();
+        String arg = ae.getActionCommand();
         if (arg.equals("New")) {
             dispose();
             TextEditor t11 = new TextEditor();
@@ -104,11 +111,11 @@ class TextEditor extends Frame implements ActionListener {
                 len1 = s6.length();
                 byte[] buf = s6.getBytes();
                 File f1 = new File(s9);
-                FileOutputStream fobj1 = new FileOutputStream(f1);
+                FileOutputStream fOutputStream = new FileOutputStream(f1);
                 for (int k = 0; k < len1; k++) {
-                    fobj1.write(buf[k]);
+                    fOutputStream.write(buf[k]);
                 }
-                fobj1.close();
+                fOutputStream.close();
             }
             this.setTitle(s8 + " TextEditor File");
         } catch (IOException ignored) {
@@ -132,7 +139,6 @@ class TextEditor extends Frame implements ActionListener {
             String msg = ta.getSelectedText();
             i = ta.getText().indexOf(msg);
             ta.replaceRange(" ", i, i + msg.length());
-            msg = "";
         }
         if (arg.equals("Select All")) {
             String strText = ta.getText();
@@ -140,14 +146,7 @@ class TextEditor extends Frame implements ActionListener {
             ta.select(0, strLen);
         }
         if (arg.equals("Time Stamp")) {
-            GregorianCalendar gcalendar = new GregorianCalendar();
-            String h = String.valueOf(gcalendar.get(Calendar.HOUR));
-            String m = String.valueOf(gcalendar.get(Calendar.MINUTE));
-            String s = String.valueOf(gcalendar.get(Calendar.SECOND));
-            String date = String.valueOf(gcalendar.get(Calendar.DATE));
-            String mon = months[gcalendar.get(Calendar.MONTH)];
-            String year = String.valueOf(gcalendar.get(Calendar.YEAR));
-            String hms = "Time" + " - " + h + ":" + m + ":" + s + " Date" + " - " + date + " " + mon + " " + year + " ";
+            String hms = getHMS();
             int loc = ta.getCaretPosition();
             ta.insert(hms, loc);
         }
@@ -156,6 +155,17 @@ class TextEditor extends Frame implements ActionListener {
             d1.setVisible(true);
             setSize(500, 500);
         }
+    }
+
+    private String getHMS() {
+        GregorianCalendar gCalendar = new GregorianCalendar();
+        String h = String.valueOf(gCalendar.get(Calendar.HOUR));
+        String m = String.valueOf(gCalendar.get(Calendar.MINUTE));
+        String s = String.valueOf(gCalendar.get(Calendar.SECOND));
+        String date = String.valueOf(gCalendar.get(Calendar.DATE));
+        String mon = months[gCalendar.get(Calendar.MONTH)];
+        String year = String.valueOf(gCalendar.get(Calendar.YEAR));
+        return "Time" + " - " + h + ":" + m + ":" + s + " Date" + " - " + date + " " + mon + " " + year + " ";
     }
 
 }
