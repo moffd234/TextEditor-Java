@@ -27,36 +27,36 @@ class TextEditor extends Frame implements ActionListener {
         mb.add(m2);
         mb.add(m3);
         mb.add(m4);
-        MenuItem mi1[] = {
+        MenuItem[] mi1 = {
                 new MenuItem("New"), new MenuItem("Open"), new MenuItem("Save"), new MenuItem("Save As"),
                 new MenuItem("Page Setup"), new MenuItem("Print"), new MenuItem("Exit")
         };
-        MenuItem mi2[] = { new MenuItem("Delete"), new MenuItem("Cut"),
+        MenuItem[] mi2 = { new MenuItem("Delete"), new MenuItem("Cut"),
                 new MenuItem("Copy"), new MenuItem("Paste"), new MenuItem("Find"),
                 new MenuItem("Find Next"), new MenuItem("Replace"),
                 new MenuItem("Go To"), new MenuItem("Select All"),
                 new MenuItem("Time Stamp") };
-        MenuItem mi3[] = { new MenuItem("Choose Font"), new MenuItem("Compile"),
+        MenuItem[] mi3 = { new MenuItem("Choose Font"), new MenuItem("Compile"),
                 new MenuItem("Run") };
-        MenuItem mi4[] = { new MenuItem("Help Topics"),
+        MenuItem[] mi4 = { new MenuItem("Help Topics"),
                 new MenuItem("About TextEditor") };
-        for (int i = 0; i < mi1.length; i++) {
-            m1.add(mi1[i]);
-            mi1[i].addActionListener(this);
+        for (MenuItem menuItem : mi1) {
+            m1.add(menuItem);
+            menuItem.addActionListener(this);
         }
-        for (int i = 0; i < mi2.length; i++) {
-            m2.add(mi2[i]);
-            mi2[i].addActionListener(this);
+        for (MenuItem menuItem : mi2) {
+            m2.add(menuItem);
+            menuItem.addActionListener(this);
         }
         m3.add(chkb);
         chkb.addActionListener(this);
-        for (int i = 0; i < mi3.length; i++) {
-            m3.add(mi3[i]);
-            mi3[i].addActionListener(this);
+        for (MenuItem menuItem : mi3) {
+            m3.add(menuItem);
+            menuItem.addActionListener(this);
         }
-        for (int i = 0; i < mi4.length; i++) {
-            m4.add(mi4[i]);
-            mi4[i].addActionListener(this);
+        for (MenuItem menuItem : mi4) {
+            m4.add(menuItem);
+            menuItem.addActionListener(this);
         }
         MyWindowsAdapter mw = new MyWindowsAdapter(this);
         addWindowListener(mw);
@@ -77,7 +77,7 @@ class TextEditor extends Frame implements ActionListener {
             if (arg.equals("Open")) {
                 FileDialog fd1 = new FileDialog(this, "Select File", FileDialog.LOAD);
                 fd1.setVisible(true);
-                String s4 = "";
+                StringBuilder s4 = new StringBuilder();
                 s2 = fd1.getFile();
                 s3 = fd1.getDirectory();
                 s32 = s3 + s2;
@@ -86,12 +86,12 @@ class TextEditor extends Frame implements ActionListener {
                 len = (int) f.length();
                 for (int j = 0; j < len; j++) {
                     char s5 = (char) fii.read();
-                    s4 = s4 + s5;
+                    s4.append(s5);
                 }
-                ta.setText(s4);
+                ta.setText(s4.toString());
                 fii.close();
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         try {
             if (arg.equals("Save As")) {
@@ -102,7 +102,7 @@ class TextEditor extends Frame implements ActionListener {
                 s9 = s7 + s8 + ".txt";
                 s6 = ta.getText();
                 len1 = s6.length();
-                byte buf[] = s6.getBytes();
+                byte[] buf = s6.getBytes();
                 File f1 = new File(s9);
                 FileOutputStream fobj1 = new FileOutputStream(f1);
                 for (int k = 0; k < len1; k++) {
@@ -111,7 +111,7 @@ class TextEditor extends Frame implements ActionListener {
                 fobj1.close();
             }
             this.setTitle(s8 + " TextEditor File");
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
         if (arg.equals("Exit")) {
             System.exit(0);
