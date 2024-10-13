@@ -160,27 +160,4 @@ class TextEditor extends Frame implements ActionListener {
 
 }
 
-class MyWindowsAdapter extends WindowAdapter {
-    TextEditor tt;
 
-    public MyWindowsAdapter(TextEditor ttt) {
-        tt = ttt;
-    }
-
-    public void windowClosing(WindowEvent we) {
-        tt.dispose();
-    }
-}
-
-class AboutDialog extends Dialog implements ActionListener {
-    AboutDialog(Frame parent, String title) {
-        super(parent, title, false);
-        this.setResizable(false);
-        setLayout(new FlowLayout(FlowLayout.LEFT));
-        setSize(500, 300);
-    }
-
-    public void actionPerformed(ActionEvent ae) {
-        dispose();
-    }
-}
